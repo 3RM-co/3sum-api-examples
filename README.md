@@ -1,6 +1,7 @@
 ## 3Sum.me API examples
 
-### Grab API key
+### Prerequisites
+- Make sure you have Telegram account connected in [app.3sum.me](https://app.3sum.me)
 - Go to [Settings](https://app.3sum.me/settings) > API > Generate your API token
 
 ### Run the code
