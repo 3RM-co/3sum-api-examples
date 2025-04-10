@@ -1,9 +1,17 @@
 {
   "scripts": {
-    "start": "node index.mjs"
+    "fetch-folder-dialogs": "node examples/fetch-folder-dialogs-with-messages.mjs",
+    "fetch-messages": "node examples/fetch-messages.mjs",
+    "prettier:fix": "prettier --write ./examples"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "axios": "^1.8.4",
     "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3"
   }
 }

@@ -7,7 +7,9 @@
 ### Run the code
 - `cd javascript && npm install`
 - `cp .env.example .env`, update API token
-- Run the script via `npm run start`, make sure you have Node.js 18+ installed
+- Make sure you have Node.js 18+ installed. Run the scripts:
+  - `npm run fetch-messages`
+  - `npm run fetch-folder-dialogs`
 
 ### 3Sum API Documentation
 
@@ -143,6 +145,85 @@ Retrieves your Telegram messages with cursor-based pagination.
 }
 ```
 
+### Get Telegram Folders
+
+Retrieves your Telegram folders.
+
+**Endpoint**: `/trpc/apiv1.telegram.folders`  
+**Method**: GET  
+**Description**: Returns your Telegram folders.  
+**Authentication**: Required
+
+#### Response
+
+```json
+{
+  "result": {
+    "data": [
+      {
+        "id": 0,            // Folder ID
+        "title": "string"   // Folder title
+      }
+    ]
+  }
+}
+```
+
+### Get Telegram Dialogs By Folder
+
+Retrieves your Telegram dialogs within a specific folder. Bear in mind limits:
+- Conversations where the last message is more than 6 months old will not be returned
+- You can change `maxParticipants` but the max value is 200
+- Only 5 last messages are returned per conversation
+- Telegram chat IDs might change when a group is migrated to a supergroup. In a future version of the 3Sum API we plan to expose a stable, unique 3Sum ID for each chat to ensure consistent identification
+
+**Endpoint**: `/trpc/apiv1.telegram.dialogsByFolder`  
+**Method**: GET  
+**Description**: Returns your Telegram dialogs for a specified folder.  
+**Authentication**: Required
+
+#### Query Parameters
+
+- `folderId` (required): The ID of the folder to retrieve dialogs from.
+- `maxParticipants` (required): Maximum number of participants to retrieve per dialog. Must be between 0 and 200.
+
+#### Response
+
+```json
+{
+  "result": {
+    "data": [
+      {
+        "dialog": {
+          "id": "string",           // Telegram chat ID (can change when a group is migrated to a supergroup)
+          "title": "string",        // Chat title
+          "username": "string",     // Chat username (if available, only first one is returned for multiple usernames)
+          "type": "dm"              // Enum: "dm", "channel", or "group"
+        },
+        "messages": [
+          {
+            "id": "string",         // Telegram message ID (not unique across all messages)
+            "messageText": "string", // Message text content
+            "sender": {
+              "id": "string",       // Telegram user ID
+              "username": "string", // User's username (if available)
+              "name": "string"      // User's name (first and last name)
+            }
+          }
+        ],
+        "participants": [
+          {
+            "id": "string",         // Participant ID
+            "username": "string",   // Participant username (if available)
+            "name": "string"        // Participant name
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 ## Error Handling
 
 The API will return appropriate HTTP status codes along with error messages in case of failures. Common error codes include:
@@ -155,4 +236,3 @@ The API will return appropriate HTTP status codes along with error messages in c
 
 - Your Telegram messages are encrypted and only decrypted when generating responses for you
 - Always keep your API token secure and do not share it with others
-
