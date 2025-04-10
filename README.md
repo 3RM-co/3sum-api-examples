@@ -129,7 +129,7 @@ Retrieves your Telegram messages with cursor-based pagination.
           "id": "string",           // 3Sum message ID (unique)
           "telegramId": "string",   // Telegram message ID (non-unique)
           "text": "string",         // Message text
-          "date": 0,                // UNIX timestamp of the message
+          "date": "string",         // UNIX timestamp of the message
           "chatId": "string",       // Telegram chat ID
           "parentType": "dm",       // Enum: "dm", "channel", or "group"
           "fromId": "string",       // Telegram ID of sender (if known)
@@ -195,27 +195,29 @@ Retrieves your Telegram dialogs within a specific folder. Bear in mind limits:
     "data": [
       {
         "dialog": {
-          "id": "string",           // Telegram chat ID (can change when a group is migrated to a supergroup)
-          "title": "string",        // Chat title
-          "username": "string",     // Chat username (if available, only first one is returned for multiple usernames)
-          "type": "dm"              // Enum: "dm", "channel", or "group"
+          "id": "string",               // Telegram chat ID (can change when a group is migrated to a supergroup)
+          "title": "string",            // Chat title
+          "lastMessageDate": "string",  // UNIX timestamp of the last message
+          "username": "string",         // Chat username (if available, only first one is returned for multiple usernames)
+          "type": "dm"                  // Enum: "dm", "channel", or "group"
         },
         "messages": [
           {
-            "id": "string",         // Telegram message ID (not unique across all messages)
-            "messageText": "string", // Message text content
+            "id": "string",             // Telegram message ID (not unique across all messages)
+            "messageText": "string",    // Message text content
+            "date": "string",           // UNIX timestamp of the message
             "sender": {
-              "id": "string",       // Telegram user ID
-              "username": "string", // User's username (if available)
-              "name": "string"      // User's name (first and last name)
+              "id": "string",           // Telegram user ID
+              "username": "string",     // User's username (if available)
+              "name": "string"          // User's name (first and last name)
             }
           }
         ],
         "participants": [
           {
-            "id": "string",         // Participant ID
-            "username": "string",   // Participant username (if available)
-            "name": "string"        // Participant name
+            "id": "string",             // Participant ID
+            "username": "string",       // Participant username (if available)
+            "name": "string"            // Participant name
           }
         ]
       }
