@@ -46,6 +46,8 @@ async function fetchDialogsByFolder(folderId) {
         input: JSON.stringify({
           folderId,
           maxParticipants,
+          maxMessages: 3,
+          includeBots: false,
         }),
       },
     });

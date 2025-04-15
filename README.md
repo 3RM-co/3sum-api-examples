@@ -162,7 +162,8 @@ Retrieves your Telegram folders.
     "data": [
       {
         "id": 0,            // Folder ID
-        "title": "string"   // Folder title
+        "title": "string",  // Folder title
+        "dialogCount": 0    // Number of dialogs in folder
       }
     ]
   }
@@ -185,7 +186,9 @@ Retrieves your Telegram dialogs within a specific folder. Bear in mind limits:
 #### Query Parameters
 
 - `folderId` (required): The ID of the folder to retrieve dialogs from.
-- `maxParticipants` (required): Maximum number of participants to retrieve per dialog. Must be between 0 and 200.
+- `maxParticipants` (optional): Maximum number of participants to retrieve per dialog (0-200). Default 10. Pass 0 to skip fetching participants.
+- `maxMessages` (optional): Maximum number of messages to fetch per chat (0-5). Default 3. Pass 0 to skip fetching messages.
+- `includeBots` (optional): Whether to include Telegram bots. Default is true.
 
 #### Response
 
