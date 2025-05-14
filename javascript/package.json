@@ -2,6 +2,7 @@
   "scripts": {
     "fetch-folder-dialogs": "node examples/fetch-folder-dialogs-with-messages.mjs",
     "fetch-messages": "node examples/fetch-messages.mjs",
+    "check-dialogs-missing": "node examples/check-dialogs-missing.mjs",
     "prettier:fix": "prettier --write ./examples"
   },
   "engines": {

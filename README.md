@@ -241,3 +241,18 @@ The API will return appropriate HTTP status codes along with error messages in c
 
 - Your Telegram messages are encrypted and only decrypted when generating responses for you
 - Always keep your API token secure and do not share it with others
+
+## Issues 
+
+### Dialogs are missing
+
+The Telegram API is tricky and sometimes doesn't send complete information since it relies on Telegram clients like Telegram iOS / Android to maintain state. This design optimizes Telegram's bandwidth but can lead to missing data from Telegram API. One of 3Sum goals is to provide you worry-free access to your Telegram. 
+
+To check if any dialogs are missing, run the `npm run check-dialogs-missing` script. This script compares the number of dialogs Telegram reports to have with the actual number of dialogs it returns, and prints the difference. This can help identify potential discrepancies in dialog retrieval. If you have a large number of dialogs missing, please contact us with the folder ID, expected number of dialogs, and actual number of dialogs, and we'll help you resolve the issue.
+
+If you miss just a couple of dialogs it can also be due to the following reasons:
+- private channels (not groups, usually paid ones)
+- groups with topics (https://blog.invitemember.com/telegram-topics/)
+- secret chats (https://www.airdroid.com/parent-control/telegram-secret-chat/)
+
+So far we support only DMs, groups (private & public), supergroups and channels (only public)
