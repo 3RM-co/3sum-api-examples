@@ -254,5 +254,6 @@ If you miss just a couple of dialogs it can also be due to the following reasons
 - [private channels](https://telegram.org/faq_channels#q-how-are-public-and-private-channels-different) (don't confuse with private groups, usually paid ones)
 - [groups with topics](https://blog.invitemember.com/telegram-topics/)
 - [secret chats](https://www.airdroid.com/parent-control/telegram-secret-chat/)
+- You've passed `includeBots: false` to the endpoint that fetches dialogs and the folder has bots
 
 So far we support only DMs, groups (private & public), supergroups and channels (only public)
