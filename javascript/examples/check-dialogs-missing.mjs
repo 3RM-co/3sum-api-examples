@@ -1,5 +1,5 @@
 import "dotenv/config";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const API_TOKEN = process.env.TREE_SUM_API_TOKEN;
 
