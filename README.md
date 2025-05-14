@@ -154,6 +154,10 @@ Retrieves your Telegram folders.
 **Description**: Returns your Telegram folders.  
 **Authentication**: Required
 
+#### Query Parameters
+
+- `includeChatIds` (optional): Boolean flag to include the list of chat IDs in each folder. Default is false.
+
 #### Response
 
 ```json
@@ -163,7 +167,8 @@ Retrieves your Telegram folders.
       {
         "id": 0,            // Folder ID
         "title": "string",  // Folder title
-        "dialogCount": 0    // Number of dialogs in folder
+        "dialogCount": 0,   // Number of dialogs in folder
+        "chatIds": ["string", "string"] // Array of chat IDs (only included if includeChatIds=true)
       }
     ]
   }

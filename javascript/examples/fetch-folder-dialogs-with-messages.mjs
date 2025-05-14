@@ -1,5 +1,5 @@
 import "dotenv/config";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const API_TOKEN = process.env.TREE_SUM_API_TOKEN;
 
@@ -10,7 +10,7 @@ if (!API_TOKEN) {
 const maxParticipants = 50;
 
 const api = axios.create({
-  baseURL: "https://api-prod.3sum.me/",
+  baseURL: process.env.TREE_SUM_API_BASE_URL || "https://api-prod.3sum.me/",
   headers: {
     "public-api-token": API_TOKEN,
     "Content-Type": "application/json",
@@ -32,7 +32,7 @@ async function fetchTelegramFolders() {
 
     return folders;
   } catch (error) {
-    console.error("Failed to fetch Telegram folders", error);
+    console.error("Failed to fetch Telegram folders");
     throw error;
   }
 }
@@ -57,7 +57,7 @@ async function fetchDialogsByFolder(folderId) {
 
     return dialogs;
   } catch (error) {
-    console.error(`Failed to fetch dialogs for folder ID: ${folderId}`, error);
+    console.error(`Failed to fetch dialogs for folder ID: ${folderId}`);
     throw error;
   }
 }
@@ -109,6 +109,10 @@ main()
     });
   })
   .catch((error) => {
-    console.error("Failed to execute main function", error);
+    if (error instanceof AxiosError) {
+      console.error("Failed to execute main function", error.response.data);
+    } else {
+      console.error("Failed to execute main function", error);
+    }
     process.exit(1);
   });

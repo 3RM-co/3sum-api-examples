@@ -11,7 +11,7 @@ const messagesPerPage = 4;
 const maxMessageCount = 12;
 
 const api = axios.create({
-  baseURL: "https://api-prod.3sum.me/",
+  baseURL: process.env.TREE_SUM_API_BASE_URL || "https://api-prod.3sum.me/",
   headers: {
     "public-api-token": API_TOKEN,
     "Content-Type": "application/json",
@@ -32,7 +32,7 @@ async function syncTelegramMessages() {
     console.log(`Sync completed: ${JSON.stringify(response.data)}`);
     return response.data;
   } catch (error) {
-    console.error("Failed to sync Telegram messages", error);
+    console.error("Failed to sync Telegram messages");
     throw error;
   }
 }
@@ -61,34 +61,29 @@ async function fetchTelegramMessages(cursor = null, limit = messagesPerPage) {
 
     return data;
   } catch (error) {
-    console.error("Failed to fetch Telegram messages", error);
+    console.error("Failed to fetch Telegram messages");
     throw error;
   }
 }
 
 async function main() {
-  try {
-    await syncTelegramMessages();
+  await syncTelegramMessages();
 
-    let allMessages = [];
-    let nextCursor = null;
+  let allMessages = [];
+  let nextCursor = null;
 
-    do {
-      const data = await fetchTelegramMessages(nextCursor);
-      allMessages = [...allMessages, ...data.messages];
-      nextCursor = data.nextCursor;
+  do {
+    const data = await fetchTelegramMessages(nextCursor);
+    allMessages = [...allMessages, ...data.messages];
+    nextCursor = data.nextCursor;
 
-      console.log(`Total messages fetched so far: ${allMessages.length}`);
-    } while (nextCursor && allMessages.length < maxMessageCount);
+    console.log(`Total messages fetched so far: ${allMessages.length}`);
+  } while (nextCursor && allMessages.length < maxMessageCount);
 
-    console.log(
-      `All messages fetched successfully. Total: ${allMessages.length}`,
-    );
-    return allMessages;
-  } catch (error) {
-    console.error("Process failed", error);
-    throw error;
-  }
+  console.log(
+    `All messages fetched successfully. Total: ${allMessages.length}`,
+  );
+  return allMessages;
 }
 
 // Run the main function
@@ -98,6 +93,10 @@ main()
     console.log("Messages: ", messages);
   })
   .catch((error) => {
-    console.error("Failed to execute main function", error);
+    if (error instanceof AxiosError) {
+      console.error("Failed to execute main function", error.response.data);
+    } else {
+      console.error("Failed to execute main function", error);
+    }
     process.exit(1);
   });
